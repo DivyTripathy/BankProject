@@ -1,0 +1,21 @@
+{
+  "addons": [
+
+  ],
+  "buildpacks": [
+    {
+      "url": "https://github.com/DivyTripathy/BankProject"
+    }
+  ],
+  "env": {
+    "": {
+      "required": true
+    }
+  },
+  "formation": {
+  },
+  "name": "BankProject",
+  "scripts": {
+  },
+  "stack": "heroku-18"
+}
