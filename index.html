@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <title>Bank Filtering App</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <link rel="icon"  href="favicon.ico">
+  <link data-require="bootstrap-css@*" data-server="3.3.1" rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" />
+</head>
+
+<body ng-app="app" >
+  <div class="container-fluid" ng-controller="main.control">
+    <div class="row">
+      <div class="col-md-12 text-center" style="padding:10px 15px;" >
+        <h1><b>Bank Searching Application</b></h1>
+      </div>
+    </div>
+    <hr>
+    <div class="container-fluid">
+      <div class="col-md-4 col-md-offset-4 input_area">
+        <div class="form-group">
+          <label>Search For Banks</label>
+          <input class="form-control" type="text" ng-model="query" placeholder="Type to Search">
+          <p class="help-block">Search for Bank : Name,IFSC,Address, ...</p>
+        </div>
+        <div class="form-group">
+          <label>Select City</label>
+          <select class="form-control" ng-model="select_city" ng-options="c for c in cities" ></select>
+        </div>
+        <hr>
+      </div>
+    </div>
+    <div class="col-md-12 text-center">
+      <h4>List of Banks in <span style="columns: #66bfbf;">{{select_city}}</span></h4>
+    </div>
+    <div class="col-md-12" style="position:relative;margin-top:30px;">
+      <div ng-if="!loaded" class="loader"></div>
+    </div>
+
+    <div class="col-md-12" style="margin-top:20px;padding:0px;margin-bottom:30px;">
+      <div class="col-md-12">
+        <div class="col-md-2">
+          <span style="color:#e95c3d;font-size:16px;" ng-if="searching">*searching for "{{query}}"</span>
+        </div>
+        <div class="col-md-8 text-center" ng-if="loaded">
+          <dir-pagination-controls max-size="10" direction-links="true" boundary-links="false">
+          </dir-pagination-controls>
+        </div>
+        <div class="col-md-2 text-center">
+          <span style="color:#66bfbf" ng-if="searching">Found <b>{{filtered.length}}</b> Results Matching Your Query</span>
+        </div>
+      </div>
+      <div class="col-md-12 table_container" ng-if="loaded">
+        <table>
+          <tr>
+            <th>sno.</th>
+            <th>Bank id</th>
+            <th>Bank Name</th>
+            <th>IFSC</th>
+            <th>Fav</th>
+          </tr>
+          <tr dir-paginate="f in filtered | itemsPerPage:listsize track by $index" current-page="cpage">
+            <td>{{idx = ((cpage-1)*listsize + $index+1)}}</td>
+            <td>{{f.bank_id}}</td>
+            <td>{{f.bank_name}}</td>
+            <td>{{f.ifsc}}</td>
+            <td ng-click="add_fav(f.ifsc,f.temp,idx)">
+              <div class="text-center">
+                <i class="fa fa-heart fav" ng-if="!f.fav"></i>
+                <i class="fa fa-heart fav" ng-if="f.fav" style="color:red;"></i>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+<script src="js/angular.min.js" charset="utf-8"></script>
+<script src="js/dirPage.js" charset="utf-8"></script>
+<script src="js/angular-filter.min.js" charset="utf-8"></script>
+<script src="js/main.js" charset="utf-8"></script>
+<footer>
+  <p> Divy Tripathy</p>
+</footer>
+</html>
